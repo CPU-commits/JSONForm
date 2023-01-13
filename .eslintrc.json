@@ -1,0 +1,50 @@
+{
+	"env": {
+		"browser": true,
+		"es2021": true,
+		"node": true
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:vue/essential",
+		"plugin:@typescript-eslint/recommended",
+		"@nuxtjs/eslint-config-typescript",
+		"plugin:vue/vue3-recommended",
+		"prettier",
+		"plugin:security-node/recommended",
+		"plugin:anti-trojan-source/recommended"
+		// "plugin:markdown/recommended"
+	],
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"parser": "@typescript-eslint/parser",
+		"sourceType": "module"
+	},
+	"plugins": [
+		"vue",
+		"@typescript-eslint",
+		"prettier",
+		"security-node"
+		// "markdown"
+	],
+	"rules": {
+		"prettier/prettier": [
+			"error",
+			{
+				"endOfLine": "auto"
+			}
+		],
+		"vue/multi-word-component-names": "off",
+		"vue/no-v-model-argument": "off",
+		"security-node/detect-unhandled-async-errors": "off",
+		"vue/no-use-v-if-with-v-for": "off",
+		"vue/no-template-shadow": "off",
+		"vue/no-mutating-props": "off"
+	}
+	//"overrides": [
+	//	{
+	//		"files": ["**/*.md"],
+	//		"processor": "markdown/markdown"
+	//	}
+	//]
+}
