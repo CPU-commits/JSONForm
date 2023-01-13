@@ -32,6 +32,7 @@
     "@pinia/nuxt": "^0.4.6",
     "@sidebase/nuxt-auth": "^0.3.3",
     "bcrypt": "^5.1.0",
+    "http-status-codes": "^2.2.0",
     "lowdb": "^5.0.5",
     "nuxt-security": "^0.10.0",
     "pinia": "^2.0.28",

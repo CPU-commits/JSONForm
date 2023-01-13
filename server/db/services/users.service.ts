@@ -1,4 +1,5 @@
 import * as bcrypt from 'bcrypt'
+import { StatusCodes } from 'http-status-codes'
 import { UserRepository } from '../adapter/user.adapter'
 import UserServiceLowDb from '../lowdb/user/user.service'
 
@@ -22,13 +23,35 @@ class UserService {
 
 	async validateUser(credentials: Credentials) {
 		const user = await this.userRepository.getUserByEmail(credentials.email)
-		if (!user) return null
+		if (!user)
+			throw new Error(
+				'No existe ningún usuario registrado con las credenciales proporcionadas',
+			)
 		if (bcrypt.compareSync(credentials.password, user?.password ?? ''))
 			return {
 				...user,
 				password: undefined,
 			}
-		return null
+		throw new Error(
+			'No existe ningún usuario registrado con las credenciales proporcionadas',
+		)
+	}
+
+	async registerUser(credentials: Credentials) {
+		const { user, password, email } = credentials
+		const existsUser = await this.userRepository.existsUserByEmail(
+			credentials.email,
+		)
+		if (existsUser)
+			throw createError({
+				message: `La cuenta con correo ${credentials.email} ya está creado`,
+				statusCode: StatusCodes.CONFLICT,
+			})
+		return await this.userRepository.insertUser({
+			password,
+			email,
+			name: user ?? '',
+		})
 	}
 }
 

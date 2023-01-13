@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { User } from '~~/server/db/adapter/user.adapter'
 
 export interface AuthData {
-	user: Omit<Omit<User, 'password'>, 'id'>
+	user: Omit<User, 'password'>
 }
 
 const useAuthStore = defineStore('auth', {
@@ -29,15 +29,18 @@ const useAuthStore = defineStore('auth', {
 			this.isAuth = false
 			this.user = null
 		},
-		async logIn(credentials: {
-			user?: string
-			email: string
-			password: string
-		}) {
+		async logIn(
+			credentials: {
+				user?: string
+				email: string
+				password: string
+			},
+			isLogin: boolean,
+		) {
 			const { signIn } = useSession()
 			await signIn('credentials', {
 				...credentials,
-				logIn: true,
+				logIn: isLogin,
 				callbackUrl: '/',
 			})
 		},

@@ -3,4 +3,5 @@ export type UserModel = {
 	name: string
 	password: string
 	email: string
+	role: string
 }

@@ -24,11 +24,11 @@ const registerForm = {
 	<section class="Session">
 		<h2>{{ isLogin ? 'Iniciar sesión' : 'Registrarse' }}</h2>
 		<div class="Session__form">
-			<HTMLForm :submit="() => authStore.logIn(registerForm)">
+			<HTMLForm :submit="() => authStore.logIn(registerForm, isLogin)">
 				<HTMLInput
 					v-if="!isLogin"
 					v-model:value="registerForm.user"
-					:label-text="'Usuario'"
+					:label-text="'Nombre'"
 				/>
 				<HTMLInput
 					v-model:value="registerForm.email"

@@ -10,12 +10,38 @@ export default NuxtAuthHandler({
 		CredentialsProvider.default({
 			name: 'Credentials',
 			credentials: {},
-			async authorize(credentials: Credentials & { logIn: boolean }) {
-				return await usersServices.validateUser(credentials)
+			async authorize(credentials: Credentials & { logIn: string }) {
+				const isLogin = credentials.logIn === 'true'
+				if (
+					!credentials.email ||
+					!credentials.password ||
+					(credentials.user && isLogin)
+				)
+					throw new Error('Faltan credenciales')
+				if (isLogin)
+					return await usersServices.validateUser(credentials)
+				else return await usersServices.registerUser(credentials)
 			},
 		}),
 	],
 	pages: {
 		signIn: '/sesion',
+		error: '/sesion/error',
+	},
+	callbacks: {
+		jwt({ token, account, user }) {
+			if (account) {
+				token.userId = user?.id ?? ''
+				token.role = user?.role ?? 'b'
+			}
+			return token
+		},
+		session({ session, token }) {
+			session.user.id = token.userId
+			session.user.role = token.role
+			return {
+				...session,
+			}
+		},
 	},
 })

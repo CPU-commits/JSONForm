@@ -22,16 +22,27 @@ export default class UserServiceLowDb implements UserRepository {
 		return bcrypt.hashSync(password, 10)
 	}
 
+	private createUser(user: Omit<UserModel, 'id'>): UserModel {
+		const userModel: UserModel = {
+			...user,
+			password: this.signPassword(user.password),
+			id: randomUUID(),
+		}
+		return userModel
+	}
+
 	private async initAdmin() {
 		const config = useRuntimeConfig()
 		await this.db.read()
 		if (this.db.data?.length === 0) {
-			this.db.data.push({
-				email: config.initRootEmail,
-				password: this.signPassword(config.initRootPassword),
-				name: 'admin',
-				id: randomUUID(),
-			})
+			this.db.data.push(
+				this.createUser({
+					email: config.initRootEmail,
+					password: config.initRootPassword,
+					name: 'admin',
+					role: 'a',
+				}),
+			)
 			await this.db.write()
 		}
 	}
@@ -44,5 +55,23 @@ export default class UserServiceLowDb implements UserRepository {
 		if (indexUser !== undefined && this.db.data)
 			return this.db.data[indexUser]
 		return null
+	}
+
+	async existsUserByEmail(email: string): Promise<boolean> {
+		await this.db.read()
+		if (this.db.data) return this.db.data?.some((u) => u.email === email)
+		else return false
+	}
+
+	async insertUser(user: Omit<User, 'id'>): Promise<User> {
+		await this.db.read()
+		const newUser = {
+			...user,
+			password: user.password ?? '',
+			role: 'b',
+		}
+		this.db.data?.push(this.createUser(newUser))
+		await this.db.write()
+		return newUser
 	}
 }

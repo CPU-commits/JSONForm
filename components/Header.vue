@@ -1,12 +1,25 @@
+<script lang="ts" setup>
+// Stores
+const authStore = useAuthStore()
+</script>
+
 <template>
 	<header class="Header">
 		<h1><span class="Header__brackets">{ }</span> json<span>form</span></h1>
-		<div class="Header__user">
+		<div v-if="!authStore.isAuth" class="Header__user">
 			<HTMLAnchor href="/sesion?iniciar=true">
 				Iniciar sesi&oacute;n
 			</HTMLAnchor>
 			<HTMLAnchor href="/sesion" :with-background="true">
 				Registrarse
+			</HTMLAnchor>
+		</div>
+		<div v-else class="Header__user">
+			<HTMLAnchor title="Dashboard" href="/dashboard">
+				<i class="fa-brands fa-dashcube" />
+			</HTMLAnchor>
+			<HTMLAnchor title="Perfil" href="/perfil">
+				<i class="fa-solid fa-user-astronaut" />
 			</HTMLAnchor>
 		</div>
 	</header>
@@ -40,6 +53,13 @@
 			font-weight: 300;
 			font-family: 'Roboto', sans-serif;
 		}
+	}
+	i {
+		font-size: 1.05rem;
+		transition: all 0.4s ease;
+	}
+	i:hover {
+		color: var(--color-main);
 	}
 }
 </style>

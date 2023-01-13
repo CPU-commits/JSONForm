@@ -6,6 +6,8 @@ export default defineNuxtRouteMiddleware(async () => {
 			user: {
 				email: session.user?.email ?? '',
 				name: session.user?.name ?? '',
+				role: session.user.role ?? 'b',
+				id: session.user.id,
 			},
 		})
 })
