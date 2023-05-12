@@ -1,7 +1,7 @@
 import * as bcrypt from 'bcrypt'
 import { StatusCodes } from 'http-status-codes'
 import { UserRepository } from '../adapter/user.adapter'
-import UserServiceLowDb from '../lowdb/user/user.service'
+import UserRepositoryPrisma from '../prisma/user/user.repo'
 
 export type Credentials = {
 	user?: string
@@ -16,9 +16,9 @@ class UserService {
 		// RuntimeConfig
 		const config = useRuntimeConfig()
 		// Services
-		if (config.databaseUri === 'local')
-			this.userRepository = new UserServiceLowDb()
-		else this.userRepository = new UserServiceLowDb()
+		if (config.connector === 'sqlite')
+			this.userRepository = new UserRepositoryPrisma()
+		else this.userRepository = new UserRepositoryPrisma()
 	}
 
 	async validateUser(credentials: Credentials) {

@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+	provider = "prisma-client-js"
+}
+
+datasource db {
+  	provider = "sqlite"
+  	url      = env("DATABASE_URL")
+}
+
+// Models
+model User {
+	id Int @id @default(autoincrement())
+	email String @unique
+	name String
+	password String
+	role String @default("a")
+}
+
+model Form {
+	id Int @id @default(autoincrement())
+	title String
+	description String?
+	anonymous Boolean @default(false)
+	basedOnIndex Boolean @default(true) @map("based_on_index")
+	isPublic Boolean @default(true) @map("is_public")
+	createdAt DateTime @default(now()) @map("created_at")
+	updatedAt DateTime @updatedAt @map("updated_at")
+	questions Question[]
+}
+
+model Question {
+	id Int @id @default(autoincrement())
+	kind String
+	index Int?
+	description String
+	form Form @relation(fields: [formId], references: [id])
+	formId Int @map("form_id")
+	validations String?
+	options QuestionOption[]
+}
+
+model QuestionOption {
+	id Int @id @default(autoincrement())
+	value String
+	text String
+	question Question @relation(fields: [questionId], references: [id])
+	questionId Int @map("question_id")
+}
