@@ -1,7 +1,7 @@
 export default defineNuxtRouteMiddleware(async () => {
-	const { getSession } = useSession()
+	const { getSession } = useAuth()
 	const session = await getSession()
-	if (session)
+	if (session?.user)
 		useAuthStore().setAuth({
 			user: {
 				email: session.user?.email ?? '',
