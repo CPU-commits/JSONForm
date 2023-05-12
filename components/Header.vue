@@ -1,26 +1,75 @@
 <script lang="ts" setup>
+// Types
+// import type { LocaleObject } from '#i18n'
 // Stores
 const authStore = useAuthStore()
+// Route
+const route = useRoute()
+// const router = useRouter()
+// i18n
+// const { locale } = useI18n()
+// const switchLocalePath = useSwitchLocalePath()
+const localePath = useLocalePath()
+
+// Form
+// const selectedLocale = ref(locale.value)
+
+const path = ref(route.path)
+
+watch(
+	() => route.path,
+	(value) => {
+		path.value = value
+	},
+)
+
+/* function switchLocale() {
+	router.push(switchLocalePath(selectedLocale.value))
+} */
 </script>
 
 <template>
 	<header class="Header">
 		<h1><span class="Header__brackets">{ }</span> json<span>form</span></h1>
 		<div v-if="!authStore.isAuth" class="Header__user">
-			<HTMLAnchor href="/sesion?iniciar=true">
+			<HTMLAnchor :href="localePath('/sesion?iniciar=true')">
 				Iniciar sesi&oacute;n
 			</HTMLAnchor>
-			<HTMLAnchor href="/sesion" :with-background="true">
+			<HTMLAnchor :href="localePath('/sesion')" :with-background="true">
 				Registrarse
 			</HTMLAnchor>
 		</div>
 		<div v-else class="Header__user">
-			<HTMLAnchor title="Dashboard" href="/dashboard">
+			<HTMLAnchor
+				:class="{ Selected: path.includes('dashboard') }"
+				title="Dashboard"
+				:href="localePath('/dashboard')"
+			>
 				<i class="fa-brands fa-dashcube" />
 			</HTMLAnchor>
-			<HTMLAnchor title="Perfil" href="/perfil">
+			<HTMLAnchor
+				:class="{ Selected: path.includes('perfil') }"
+				title="Perfil"
+				:href="localePath('/perfil')"
+			>
 				<i class="fa-solid fa-user-astronaut" />
 			</HTMLAnchor>
+			<!--
+			<ClientOnly>
+				<HTMLSelect
+					v-model:value="selectedLocale"
+					:on-change="() => switchLocale()"
+				>
+					<option
+						v-for="locale_ in locales"
+						:key="(locale_ as LocaleObject).code"
+						:value="(locale_ as LocaleObject).code"
+					>
+						{{ (locale_ as LocaleObject).code }}
+					</option>
+				</HTMLSelect>
+			</ClientOnly>
+			-->
 		</div>
 	</header>
 </template>
@@ -32,6 +81,8 @@ const authStore = useAuthStore()
 	height: 40px;
 	width: 100%;
 	top: 0;
+	background-color: white;
+	z-index: var(--z-6);
 	position: sticky;
 	display: flex;
 	justify-content: space-around;
@@ -61,5 +112,9 @@ const authStore = useAuthStore()
 	i:hover {
 		color: var(--color-main);
 	}
+}
+
+.Selected i {
+	color: var(--color-main);
 }
 </style>

@@ -7,6 +7,7 @@ const spinnerGet = useSpinnerGet()
 	<main class="Main">
 		<Loading v-if="spinner || spinnerGet" />
 		<Header />
+		<ToastToasts />
 		<div class="Main__container">
 			<slot />
 		</div>
