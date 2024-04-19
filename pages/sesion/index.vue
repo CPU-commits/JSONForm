@@ -22,21 +22,21 @@ const registerForm = {
 
 <template>
 	<section class="Session">
-		<h2>{{ isLogin ? 'Iniciar sesión' : 'Registrarse' }}</h2>
+		<h2>{{ isLogin ? $t('session.login') : $t('session.register') }}</h2>
 		<div class="Session__form">
 			<HTMLForm :submit="() => authStore.logIn(registerForm, isLogin)">
 				<HTMLInput
 					v-if="!isLogin"
 					v-model:value="registerForm.user"
-					:label-text="'Nombre'"
+					:label-text="$t('user.name')"
 				/>
 				<HTMLInput
 					v-model:value="registerForm.email"
-					:label-text="'@ Email'"
+					:label-text="`@ ${$t('user.email')}`"
 				/>
 				<HTMLInput
 					v-model:value="registerForm.password"
-					:label-text="'Contraseña'"
+					:label-text="$t('user.pass')"
 					type="password"
 				/>
 				<footer class="Session__form--footer">
@@ -45,10 +45,14 @@ const registerForm = {
 						type="button"
 						class="Session__footer--toggle"
 					>
-						{{ !isLogin ? 'Iniciar sesión' : 'Registrarse' }}
+						{{
+							!isLogin
+								? $t('session.login')
+								: $t('session.register')
+						}}
 					</HTMLButton>
 					<HTMLButton :with-background="true" type="submit">
-						Env&iacute;ar
+						{{ $t('actions.send') }}
 					</HTMLButton>
 				</footer>
 			</HTMLForm>
@@ -62,9 +66,11 @@ const registerForm = {
 	flex-direction: column;
 	align-items: center;
 	margin-top: 20px;
+
 	h2 {
 		font-size: 2rem;
 	}
+
 	.Session__form {
 		margin-top: 10px;
 		width: 100%;

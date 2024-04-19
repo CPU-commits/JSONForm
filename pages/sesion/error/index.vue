@@ -8,12 +8,12 @@ const error = route.query.error
 <template>
 	<section class="Error">
 		<h1>
-			<i class="fa-solid fa-bomb"></i> Parece que algo sali&oacute; mal...
+			<i class="fa-solid fa-bomb"></i> {{ $t('actions.err') }}
 		</h1>
 		<h3>
 			{{ error }}
 			<HTMLAnchor href="/sesion" :with-background="true">
-				Volver a sesi&oacute;n
+				{{ $t('session.back') }}
 			</HTMLAnchor>
 		</h3>
 	</section>

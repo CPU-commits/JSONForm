@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { QuestionObject } from '~~/models/form/questions.model'
-import { UserForm } from '~~/server/db/adapter/form.adapter'
+import type { QuestionObject } from '~~/models/form/questions.model'
+import type { UserForm } from '~~/server/db/adapter/form.adapter'
 
 const props = withDefaults(
 	defineProps<{
@@ -28,7 +28,7 @@ function submitForm() {
 	<section class="Form">
 		<header>
 			<h2>{{ form.title }}</h2>
-			<p>{{ form.description }}</p>
+			<p>{{ form.description ?? $t('without_description') }}</p>
 			<footer>
 				<small v-if="form.anonymous">
 					<i class="fa-solid fa-user-secret"></i>
@@ -49,10 +49,10 @@ function submitForm() {
 				v-for="(question, i) in sortQuestions(form.questions)"
 				:key="i"
 				:question="question"
-				:index="form.basedOnIndex ? question.index as number : i + 1"
+				:index="form.basedOnIndex ? (question.index as number) : i + 1"
 			/>
 			<footer>
-				<HTMLButton v-if="isPreview" type="submit">
+				<HTMLButton v-if="!isPreview" type="submit">
 					Subir formulario
 				</HTMLButton>
 			</footer>

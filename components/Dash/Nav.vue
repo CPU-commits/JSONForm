@@ -17,28 +17,24 @@ watch(
 <template>
 	<nav class="DashNav">
 		<HTMLAnchor
-			:class="{ Selected: path === localePath('/dashboard') }"
+			:class="{ Selected: path.includes(localePath('/dashboard')) }"
 			href="/dashboard"
 		>
 			<i class="fa-solid fa-clipboard"></i>
 		</HTMLAnchor>
+		<!--
 		<HTMLAnchor
 			:class="{ Selected: path === localePath('/dashboard/forms/new') }"
 			href="/dashboard/forms/new"
 		>
 			<i class="fa-solid fa-square-plus"></i>
 		</HTMLAnchor>
+		-->
 		<HTMLAnchor
 			:class="{ Selected: path === localePath('/dashboard/forms/docs') }"
 			href="/dashboard/forms/docs"
 		>
-			<i class="fa-solid fa-passport"></i>
-		</HTMLAnchor>
-		<HTMLAnchor
-			:class="{ Selected: path === localePath('/dashboard/code') }"
-			href="/dashboard/formularios"
-		>
-			<i class="fa-solid fa-code"></i>
+			<i class="fa-solid fa-book"></i>
 		</HTMLAnchor>
 	</nav>
 </template>

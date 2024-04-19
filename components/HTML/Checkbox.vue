@@ -90,7 +90,9 @@ defineEmits<{
 		svg {
 			stroke-dasharray: var(--a, 86.12);
 			stroke-dashoffset: var(--o, 86.12);
-			transition: stroke-dasharray 0.6s, stroke-dashoffset 0.6s;
+			transition:
+				stroke-dasharray 0.6s,
+				stroke-dashoffset 0.6s;
 		}
 	}
 }

@@ -1,8 +1,7 @@
-import { formService } from '~/server/db/services/form.service'
+import { useFormService } from "~/server/utils/services"
 
-export default defineEventHandler(async (event) => {
-	// Auth
-	await auth(event, 'b')
+export default defineEventHandler(async () => {
+	const formService = await useFormService()
 	// Get forms
 	const forms = await formService.getForms()
 

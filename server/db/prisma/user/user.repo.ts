@@ -1,12 +1,30 @@
-import { PrismaClient, User } from '@prisma/client'
+import {
+	type Prisma,
+	PrismaClient,
+	type User
+} from '@prisma/client'
 import * as bcrypt from 'bcrypt'
-import { UserRepository } from '../../adapter/user.adapter'
+import type { UserRepository } from '../../adapter/user.adapter'
+import type { DefaultArgs } from '@prisma/client/runtime/library'
 
 export default class UserRepositoryPrisma implements UserRepository {
-	private userRepo = new PrismaClient().user
+	static instance: UserRepositoryPrisma
+	private userRepo: Prisma.UserDelegate<DefaultArgs>
 
-	constructor() {
+	constructor(userRepo: Prisma.UserDelegate<DefaultArgs>) {
+		this.userRepo = userRepo
+
 		this.initAdmin()
+	}
+
+	static async constructorAsync() {
+		if (!this.instance) {
+			const prisma = new PrismaClient()
+			await prisma.$connect()
+
+			this.instance = new UserRepositoryPrisma(prisma.user)
+		}
+		return this.instance
 	}
 
 	private signPassword(password: string) {

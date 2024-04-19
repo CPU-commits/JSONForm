@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { Toast } from '~~/models/toast/toast.model'
+import type { Toast } from '~~/models/toast/toast.model'
 
 const useToastsStore = defineStore('toats', {
 	state() {

@@ -1,5 +1,21 @@
 {
 	"form": {
-		"new_form": "New form"
-	}
+		"new": "New form",
+		"plural": "Forms"
+	},
+	"user": {
+		"name": "Name",
+		"email": "Email",
+		"pass": "Password"
+	},
+	"session": {
+		"login": "Login",
+		"register": "Register",
+		"back": "Back to session"
+	},
+	"actions": {
+		"send": "Send",
+		"err": "It seems that something went wrong..."
+	},
+	"without_description": "No description"
 }

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { User } from '~~/server/db/adapter/user.adapter'
+import type { User } from '~~/server/db/adapter/user.adapter'
 
 export interface AuthData {
 	user: Omit<User, 'password'>
@@ -37,7 +37,7 @@ const useAuthStore = defineStore('auth', {
 			},
 			isLogin: boolean,
 		) {
-			const { signIn } = useSession()
+			const { signIn } = useAuth()
 			await signIn('credentials', {
 				...credentials,
 				logIn: isLogin,
@@ -45,7 +45,7 @@ const useAuthStore = defineStore('auth', {
 			})
 		},
 		async logOut() {
-			const { signOut } = useSession()
+			const { signOut } = useAuth()
 			await signOut()
 			this.unsetAuth()
 		},

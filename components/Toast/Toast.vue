@@ -19,6 +19,7 @@ function emitDelete() {
 
 <template>
 	<Transition>
+		<!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
 		<article :class="type" role="alert">
 			<i v-if="type === 'success'" class="fa-solid fa-circle-check" />
 			<i

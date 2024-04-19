@@ -18,7 +18,7 @@ const { data: forms } = await useFetch('/api/v1/forms', {
 <template>
 	<NuxtLayout name="dashboard">
 		<DashContainer>
-			<DashTitle> Formularios </DashTitle>
+			<DashTitle> {{ $t('form.plural') }} </DashTitle>
 			<FormCard v-for="form in forms" :key="form.id" :form="form" />
 		</DashContainer>
 	</NuxtLayout>

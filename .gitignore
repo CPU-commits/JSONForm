@@ -6,3 +6,6 @@ node_modules
 .output
 .env
 dist
+forms
+!server/api/v1/forms
+.eslintcache

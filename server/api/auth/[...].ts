@@ -1,16 +1,18 @@
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { NuxtAuthHandler } from '#auth'
-import { usersServices } from '@/server/db/services/users.service'
 import type { Credentials } from '@/server/db/services/users.service'
 
 export default NuxtAuthHandler({
 	secret: useRuntimeConfig().authSecret,
 	providers: [
-		// @ts-ignore
+		// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+		// @ts-expect-error
 		CredentialsProvider.default({
 			name: 'Credentials',
 			credentials: {},
 			async authorize(credentials: Credentials & { logIn: string }) {
+				const userService = await useUserService()
+
 				const isLogin = credentials.logIn === 'true'
 				if (
 					!credentials.email ||
@@ -19,8 +21,8 @@ export default NuxtAuthHandler({
 				)
 					throw new Error('Faltan credenciales')
 				if (isLogin)
-					return await usersServices.validateUser(credentials)
-				else return await usersServices.registerUser(credentials)
+					return await userService.validateUser(credentials)
+				else return await userService.registerUser(credentials)
 			},
 		}),
 	],

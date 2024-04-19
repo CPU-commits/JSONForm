@@ -1,7 +1,6 @@
 import * as bcrypt from 'bcrypt'
 import { StatusCodes } from 'http-status-codes'
-import { UserRepository } from '../adapter/user.adapter'
-import UserRepositoryPrisma from '../prisma/user/user.repo'
+import type { UserRepository } from '../adapter/user.adapter'
 
 export type Credentials = {
 	user?: string
@@ -9,16 +8,11 @@ export type Credentials = {
 	password: string
 }
 
-class UserService {
+export default class UserService {
 	private userRepository: UserRepository
 
-	constructor() {
-		// RuntimeConfig
-		const config = useRuntimeConfig()
-		// Services
-		if (config.connector === 'sqlite')
-			this.userRepository = new UserRepositoryPrisma()
-		else this.userRepository = new UserRepositoryPrisma()
+	constructor(userRepository: UserRepository) {
+		this.userRepository = userRepository
 	}
 
 	async validateUser(credentials: Credentials) {
@@ -33,7 +27,7 @@ class UserService {
 				password: undefined,
 			}
 		throw new Error(
-			'No existe ningún usuario registrado con las credenciales proporcionadas',
+			'Credenciales invalidas',
 		)
 	}
 
@@ -54,5 +48,3 @@ class UserService {
 		})
 	}
 }
-
-export const usersServices = new UserService()

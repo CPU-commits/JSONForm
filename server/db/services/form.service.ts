@@ -1,20 +1,18 @@
-import { FormRepository, SettersForm, UserForm } from '../adapter/form.adapter'
-import FormRepositoryPrisma from '../prisma/form/form.repo'
+import type {
+	FormRepository,
+	SettersForm,
+	UserForm,
+} from '../adapter/form.adapter'
 
-class FormService {
+export default class FormService {
 	private formRepository: FormRepository
 
-	constructor() {
-		// RuntimeConfig
-		const config = useRuntimeConfig()
-		// Services
-		if (config.connector === 'sqlite')
-			this.formRepository = new FormRepositoryPrisma()
-		else this.formRepository = new FormRepositoryPrisma()
+	constructor(formRepository: FormRepository) {
+		this.formRepository = formRepository
 	}
 
 	async insertForm(form: Omit<UserForm, 'id'>) {
-		return await this.formRepository.insertForm(form)
+		return await this.formRepository.updateOrInsertForm(form)
 	}
 
 	async getForms(
@@ -28,6 +26,8 @@ class FormService {
 	) {
 		return await this.formRepository.getForms(setters)
 	}
-}
 
-export const formService = new FormService()
+	async getFormByUid(uid: string) {
+		return await this.formRepository.getFormByUid(uid)
+	}
+}

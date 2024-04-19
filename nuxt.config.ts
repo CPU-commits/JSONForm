@@ -1,5 +1,4 @@
-import eslint from 'vite-plugin-eslint'
-import { Connectors } from './models/db/connectors'
+import type { Connectors } from './models/db/connectors'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -9,6 +8,7 @@ export default defineNuxtConfig({
 		databaseUri: '',
 		authSecret: '',
 		connector: 'sqlite' as keyof typeof Connectors,
+		formsFolder: `${process.cwd()}/forms`,
 	},
 	typescript: {
 		strict: true,
@@ -24,10 +24,17 @@ export default defineNuxtConfig({
 		'@sidebase/nuxt-auth',
 		'@nuxtjs/i18n',
 		'nuxt-icon',
+		'@nuxt/eslint',
 		// 'nuxt-security',
 	],
-	auth: {
-		origin: 'http://localhost:3000',
+	eslint: {
+		config: {
+			typescript: {
+				strict: true,
+			},
+			stylistic: false,
+		},
+		checker: true,
 	},
 	imports: {
 		dirs: ['stores'],
@@ -59,6 +66,5 @@ export default defineNuxtConfig({
 				},
 			},
 		},
-		plugins: [eslint()],
 	},
 })

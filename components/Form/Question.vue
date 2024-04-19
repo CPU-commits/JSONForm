@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { QuestionObject } from '~~/models/form/questions.model'
+import type { QuestionObject } from '~~/models/form/questions.model'
 
 defineProps<{
 	question: QuestionObject
@@ -17,6 +17,7 @@ const valueRef = ref<any | null>(null)
 				{{ question.description }}
 			</span>
 		</header>
+		{{ question }}
 		<!-- Inputs -->
 		<HTMLInput v-if="question.kind === 'Text'" v-model:value="valueRef" />
 		<HTMLInput
@@ -28,22 +29,15 @@ const valueRef = ref<any | null>(null)
 			v-else-if="question.kind === 'File'"
 			@file="(file) => (valueRef = file)"
 		/>
-		<HTMLSelect
+		<FormQuestionSelect
 			v-else-if="question.kind === 'Select'"
-			v-model:value="valueRef"
-		>
-			<option value="">Seleccione una opci&oacute;n</option>
-			<option
-				v-for="{ value, text } in (question as QuestionObject<'Select'>).options"
-				:key="value"
-				:value="value"
-			>
-				{{ text }}
-			</option>
-		</HTMLSelect>
+			:question="question as QuestionObject<'Select'>"
+		/>
 		<div v-else-if="question.kind === 'Multiple'" class="Multiple">
 			<HTMLCheckbox
-				v-for="{ value, text } in (question as QuestionObject<'Multiple'>).options"
+				v-for="{ value, text } in (
+					question as QuestionObject<'Multiple'>
+				).options"
 				:key="value"
 				:value="value"
 				@update:value="

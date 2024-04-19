@@ -1,8 +1,21 @@
 import { ZodError } from 'zod'
-import { HandleError } from '~/models/validation/error'
+import { FetchError } from 'ofetch'
+import { ErrorHttp, type HandleError } from '~/models/validation/error'
 
 export function handleError(error: unknown): HandleError {
-	if (error instanceof ZodError) {
+	if (error instanceof FetchError) {
+		return {
+			message: error.data.message,
+			statusCode: error.statusCode ?? 500,
+			statusMessage: error.message,
+		}
+	} else if (error instanceof ErrorHttp) {
+		return {
+			message: error.message,
+			statusCode: error.statusCode,
+			statusMessage: error.name,
+		}
+	} else if (error instanceof ZodError) {
 		return {
 			message: error.message,
 			statusCode: 400,

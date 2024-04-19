@@ -1,5 +1,21 @@
 {
 	"form": {
-		"new_form": "Nuevo formulario"
-	}
+		"new": "Nuevo formulario",
+		"plural": "Formularios"
+	},
+	"user": {
+		"name": "Nombre",
+		"email": "Email",
+		"pass": "Contraseña"
+	},
+	"session": {
+		"login": "Iniciar sesión",
+		"register": "Registrarse",
+		"back": "Volver a sesión"
+	},
+	"actions": {
+		"send": "Envíar",
+		"err": "Parece que algo salió mal..."
+	},
+	"without_description": "Sin descripción"
 }

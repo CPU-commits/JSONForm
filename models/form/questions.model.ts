@@ -13,7 +13,7 @@ export type QuestionKind =
 
 export const Question = z.object({
 	description: z.string().min(1).max(500),
-	index: z.number().int().optional(),
+	index: z.number().int().or(z.null()).optional(),
 	kind: z.enum([
 		'Text',
 		'Date',
@@ -39,7 +39,6 @@ export const TextSchema = z
 				maxLength: z.number().min(1).optional(),
 				regex: z
 					.string()
-					// eslint-disable-next-line security-node/non-literal-reg-expr
 					.refine((v) => new RegExp(v))
 					.optional(),
 			})
@@ -98,7 +97,7 @@ export const SelectSchema = z
 				value: z.string().min(1).max(50),
 				text: z.string().min(1).max(100),
 			}),
-		),
+		).min(2),
 	})
 	.and(Question)
 export type Select = z.infer<typeof SelectSchema>
@@ -130,7 +129,7 @@ export const NumberSchema = z
 			.optional(),
 	})
 	.and(Question)
-export type Number = z.infer<typeof NumberSchema>
+export type NumberQ = z.infer<typeof NumberSchema>
 
 // URL Question
 export const URLSchema = z
@@ -170,17 +169,17 @@ export type QuestionObject<T extends QuestionKind = 'Default'> =
 	T extends 'Text'
 		? Text
 		: T extends 'Date'
-		? Date
-		: T extends 'File'
-		? File
-		: T extends 'Select'
-		? Select
-		: T extends 'Multiple'
-		? Multiple
-		: T extends 'Number'
-		? Number
-		: T extends 'URL'
-		? URL
-		: T extends 'Email'
-		? Email
-		: Question
+		  ? Date
+		  : T extends 'File'
+		    ? File
+		    : T extends 'Select'
+		      ? Select
+		      : T extends 'Multiple'
+		        ? Multiple
+		        : T extends 'Number'
+		          ? NumberQ
+		          : T extends 'URL'
+		            ? URL
+		            : T extends 'Email'
+		              ? Email
+		              : Question

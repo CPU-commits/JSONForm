@@ -1,14 +1,16 @@
-import { QuestionObject } from '~~/models/form/questions.model'
+import type { QuestionObject } from '~/models/form/questions.model'
 
 export type UserForm = {
 	id?: string | number
 	title: string
-	description?: string
+	uid: string
+	description?: string | null
 	anonymous?: boolean
 	basedOnIndex?: boolean
 	isPublic?: boolean
 	createdAt?: Date
 	updatedAt?: Date
+	slug: string
 	questions: Array<QuestionObject>
 }
 
@@ -25,6 +27,7 @@ export type SettersForm = {
 }
 
 export interface FormRepository {
-	getForms(set: SettersForm): Promise<Array<UserForm>>
-	insertForm(form: Omit<UserForm, 'id'>): Promise<{ id: string | number }>
+	getForms(set: SettersForm): Promise<Array<Omit<UserForm, 'questions'>>>
+	getFormByUid(uid: string): Promise<UserForm | null>
+	updateOrInsertForm(form: Omit<UserForm, 'id'>): Promise<{ id: string | number }>
 }

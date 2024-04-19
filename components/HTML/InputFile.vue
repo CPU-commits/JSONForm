@@ -12,6 +12,7 @@ const props = defineProps<{
 // Emits
 const emit = defineEmits<{
 	(e: 'file', file: File): void
+	// eslint-disable-next-line @typescript-eslint/unified-signatures
 	(e: 'delete', file: File): void
 }>()
 // Stores
